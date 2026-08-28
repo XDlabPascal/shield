@@ -1,0 +1,6 @@
+@font-face{font-family:"Helvetica Neue W1G";src:url("../assets/fonts/HelvNeue35_W1G.ttf") format("truetype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("../assets/fonts/HelvNeue45_W1G.ttf") format("truetype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("../assets/fonts/HelvNeue55_W1G.ttf") format("truetype");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("../assets/fonts/HelvNeue65_W1G.ttf") format("truetype");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("../assets/fonts/HelvNeue75_W1G.ttf") format("truetype");font-weight:700;font-style:normal;font-display:swap}
+:root{--font-base:"Helvetica Neue W1G",Helvetica,Arial,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
