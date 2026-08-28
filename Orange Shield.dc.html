@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:"Helvetica Neue W1G";src:url("./fonts/HelvNeue35_W1G.ttf") format("truetype");font-weight:300;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("./fonts/HelvNeue45_W1G.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("./fonts/HelvNeue55_W1G.ttf") format("truetype");font-weight:500;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("./fonts/HelvNeue65_W1G.ttf") format("truetype");font-weight:600;font-display:swap}
+@font-face{font-family:"Helvetica Neue W1G";src:url("./fonts/HelvNeue75_W1G.ttf") format("truetype");font-weight:700;font-display:swap}
+:root{
+--font-base:"Helvetica Neue W1G",Helvetica,Arial,-apple-system,sans-serif;
+--color-white:#ffffff;--color-black:#000000;--color-orange-1:#ff7900;--color-orange-2:#f16e00;
+--color-green:#32c832;--color-blue:#527edb;--color-yellow:#ffcc00;--color-red:#cd3c14;
+--grey-100:#fafafa;--grey-200:#f6f6f6;--grey-300:#eeeeee;--grey-400:#dddddd;--grey-500:#cccccc;--grey-600:#999999;--grey-700:#666666;--grey-800:#595959;--grey-900:#333333;
+--status-success:#32c832;--status-info:#527edb;--status-warning:#ffcc00;--status-danger:#cd3c14;
+--radius-sm:2px;--radius-pill:999px;
+}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--grey-200)}
+*{box-sizing:border-box}
+button,input{font-size:16px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+::-webkit-scrollbar{display:none}
+[data-theme="dark"]{
+--color-white:#000000;--color-black:#ffffff;
+--grey-100:#161616;--grey-200:#1e1e1e;--grey-300:#2a2a2a;--grey-400:#3a3a3a;--grey-500:#525252;
+--grey-600:#8a8a8a;--grey-700:#a8a8a8;--grey-800:#c7c7c7;--grey-900:#f0f0f0;
+}
+</style>
+<link rel="stylesheet" href="./_ds/orange-design-system-4d8c3230-ed3b-42ef-bb2e-6547d0875c5a/styles.css">
+<script src="./_ds/orange-design-system-4d8c3230-ed3b-42ef-bb2e-6547d0875c5a/_ds_bundle.js"></script>
+</helmet>
+<div style="min-height:100dvh;background:var(--grey-200);font-family:var(--font-base)">
+<div data-theme="{{ themeAttr }}" style="max-width:480px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;background:var(--color-white);color:var(--color-black);padding-top:max(20px,env(safe-area-inset-top))">
+
+<div style="flex:1;position:relative">
+
+<!-- HOME -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<div style="animation:fadeIn 220ms ease;padding:20px 20px 32px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="font-weight:700;font-size:24px;letter-spacing:-0.4px">Hello, Thomas</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Switch" checked="{{ darkMode }}" onChange="{{ toggleDarkMode }}" hint-size="40px,22px"></x-import>
+</div>
+
+<div style="border:1px solid var(--grey-300);padding:18px 18px 20px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline">
+<div style="font-size:14px;color:var(--grey-700)">Security score</div>
+<div style="font-size:13px;font-weight:600;color:var(--grey-700)">Good</div>
+</div>
+<div style="display:flex;align-items:baseline;gap:6px">
+<div style="font-size:32px;font-weight:700;letter-spacing:-0.5px">82</div>
+<div style="font-size:14px;color:var(--grey-700)">/ 100</div>
+</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Progress" value="82" max="100" tone="brand" hint-size="100%,8px"></x-import>
+<div style="font-size:13px;color:var(--grey-700)">2 issues need your attention</div>
+</div>
+
+<div style="color:#000"><x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Alert" tone="warning" title="2 threats need attention" hint-size="100%,70px">We found a leaked password and a suspicious login. Review them in Threats.</x-import></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div onClick="{{ goThreatsFromHome }}" style="cursor:pointer;border:1px solid var(--grey-300);padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+<div style="font-size:13px;color:var(--grey-700)">Password health</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="warning" hint-size="60px,22px">1 weak</x-import>
+</div>
+<div onClick="{{ goSecurity }}" style="cursor:pointer;border:1px solid var(--grey-300);padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+<div style="font-size:13px;color:var(--grey-700)">Two-factor auth</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="success" hint-size="70px,22px">Enabled</x-import>
+</div>
+<div onClick="{{ goMonitoring }}" style="cursor:pointer;border:1px solid var(--grey-300);padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+<div style="font-size:13px;color:var(--grey-700)">Real-time monitoring</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="success" hint-size="55px,22px">Active</x-import>
+</div>
+<div onClick="{{ openFiltering }}" style="cursor:pointer;border:1px solid var(--grey-300);padding:14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px">
+<div style="font-size:13px;color:var(--grey-700)">Call &amp; SMS filtering</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="neutral" hint-size="90px,22px">128 blocked</x-import>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:0;border:1px solid var(--grey-300)">
+<div style="padding:12px 16px;font-weight:700;font-size:14px;border-bottom:1px solid var(--grey-300)">Recent activity</div>
+<div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:2px">
+<div style="font-size:14px">Suspicious login blocked</div>
+<div style="font-size:12px;color:var(--grey-700)">Paris, France · 2 min ago</div>
+</div>
+<div style="padding:12px 16px;border-bottom:1px solid var(--grey-200);display:flex;flex-direction:column;gap:2px">
+<div style="font-size:14px">Password leak detected</div>
+<div style="font-size:12px;color:var(--grey-700)">shopname.com · 1 hour ago</div>
+</div>
+<div style="padding:12px 16px;display:flex;flex-direction:column;gap:2px">
+<div style="font-size:14px">27 spam calls blocked</div>
+<div style="font-size:12px;color:var(--grey-700)">Today</div>
+</div>
+</div>
+
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Button" variant="primary" size="lg" onClick="{{ goThreatsFromHome }}" hint-size="160px,52px">View all threats</x-import>
+</div>
+</sc-if>
+
+<!-- THREATS -->
+<sc-if value="{{ isThreats }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeIn 220ms ease;padding:20px 20px 32px;display:flex;flex-direction:column;gap:16px">
+<div style="font-weight:700;font-size:24px;letter-spacing:-0.4px">Threats</div>
+<div style="display:flex;gap:22px;border-bottom:1px solid var(--grey-300)">
+<sc-for list="{{ threatFilters }}" as="f" hint-placeholder-count="3">
+<button onClick="{{ f.onClick }}" style="background:none;border:none;padding:10px 0;font-family:var(--font-base);cursor:pointer;font-size:14px;color:var(--color-black);border-bottom:{{ f.borderStyle }}">{{ f.label }}</button>
+</sc-for>
+</div>
+<sc-for list="{{ visibleThreats }}" as="t" hint-placeholder-count="4">
+<div style="border:1px solid var(--grey-300);padding:16px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;justify-content:space-between;gap:10px">
+<div style="font-weight:700;font-size:15px">{{ t.title }}</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="{{ t.badgeTone }}" hint-size="100px,22px">{{ t.badgeLabel }}</x-import>
+</div>
+<div style="font-size:13px;color:var(--grey-900);line-height:1.4">{{ t.desc }}</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px">
+<div style="font-size:12px;color:var(--grey-700)">{{ t.time }}</div>
+<sc-if value="{{ t.action }}" hint-placeholder-val="{{ false }}">
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Button" variant="secondary" size="sm" hint-size="100px,36px">{{ t.action }}</x-import>
+</sc-if>
+</div>
+</div>
+</sc-for>
+<div onClick="{{ openFiltering }}" style="cursor:pointer;border:1px solid var(--grey-300);padding:16px;display:flex;justify-content:space-between;align-items:center;background:var(--grey-100)">
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-weight:700;font-size:14px">Call, SMS &amp; deepfake filtering</div>
+<div style="font-size:12px;color:var(--grey-700)">See what we've blocked this month</div>
+</div>
+<div style="font-size:18px;color:var(--grey-700)">›</div>
+</div>
+</div>
+</sc-if>
+
+<!-- MONITORING -->
+<sc-if value="{{ isMonitoring }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeIn 220ms ease;padding:20px 20px 32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="font-weight:700;font-size:24px;letter-spacing:-0.4px">Monitoring</div>
+</div>
+<div style="border:1px solid var(--grey-300);padding:16px;display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-weight:600;font-size:15px">Real-time monitoring</div>
+<div style="font-size:12px;color:var(--grey-700)">{{ monitoringStatusText }}</div>
+</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Switch" checked="{{ monitoringOn }}" onChange="{{ toggleMonitoring }}" hint-size="40px,22px"></x-import>
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--grey-700)">
+<div>Last scan completed 2 minutes ago</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Button" variant="secondary" size="sm" onClick="{{ rescan }}" hint-size="100px,36px">Scan now</x-import>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+<div style="border:1px solid var(--grey-300);padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px">
+<div style="font-size:22px;font-weight:700">4</div>
+<div style="font-size:11px;color:var(--grey-700)">Devices</div>
+</div>
+<div style="border:1px solid var(--grey-300);padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px">
+<div style="font-size:22px;font-weight:700">12</div>
+<div style="font-size:11px;color:var(--grey-700)">Networks scanned</div>
+</div>
+<div style="border:1px solid var(--grey-300);padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px">
+<div style="font-size:22px;font-weight:700">6</div>
+<div style="font-size:11px;color:var(--grey-700)">Breach checks</div>
+</div>
+</div>
+
+<div style="font-weight:700;font-size:14px">Live activity</div>
+<div style="display:flex;flex-direction:column;border:1px solid var(--grey-300)">
+<sc-for list="{{ activityFeed }}" as="a" hint-placeholder-count="4">
+<div style="display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid var(--grey-200);align-items:flex-start">
+<span style="width:8px;height:8px;border-radius:50%;background:{{ a.dot }};margin-top:5px;flex-shrink:0"></span>
+<div style="display:flex;flex-direction:column;gap:2px">
+<div style="font-size:14px">{{ a.title }}</div>
+<div style="font-size:12px;color:var(--grey-700)">{{ a.time }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<!-- SECURITY -->
+<sc-if value="{{ isSecurity }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeIn 220ms ease;padding:20px 20px 32px;display:flex;flex-direction:column;gap:22px">
+<div style="font-weight:700;font-size:24px;letter-spacing:-0.4px">Security</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-weight:700;font-size:14px">Passwords</div>
+<div style="border:1px solid var(--grey-300)">
+<sc-for list="{{ passwords }}" as="p" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--grey-200)">
+<div style="font-size:14px">{{ p.name }}</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="{{ p.tone }}" hint-size="60px,22px">{{ p.strength }}</x-import>
+</div>
+</sc-for>
+</div>
+<div style="align-self:flex-start"><x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Button" variant="primary" hint-size="200px,44px">Open password manager</x-import></div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-weight:700;font-size:14px">Two-factor authentication</div>
+<div style="border:1px solid var(--grey-300)">
+<sc-for list="{{ tfaAccounts }}" as="tf" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--grey-200)">
+<div style="font-size:14px">{{ tf.name }}</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Switch" checked="{{ tf.checked }}" onChange="{{ tf.toggle }}" hint-size="40px,22px"></x-import>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-weight:700;font-size:14px">Recommendations</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ recommendations }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;gap:10px;align-items:flex-start;font-size:14px">
+<span style="color:var(--color-orange-1);font-weight:700">—</span>
+<div>{{ r }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="font-weight:700;font-size:14px">Learn</div>
+<div style="border:1px solid var(--grey-300)">
+<sc-for list="{{ resources }}" as="res" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--grey-200);cursor:pointer">
+<div style="font-size:14px">{{ res }}</div>
+<div style="font-size:16px;color:var(--grey-700)">›</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- FILTERING DETAIL -->
+<sc-if value="{{ showFiltering }}" hint-placeholder-val="{{ false }}">
+<div style="animation:fadeIn 220ms ease;display:flex;flex-direction:column;height:100%">
+<div style="padding:0 20px 12px;display:flex;flex-direction:column;gap:12px">
+<div onClick="{{ closeFiltering }}" style="cursor:pointer;font-size:15px;color:var(--color-black);font-weight:600">‹ Back</div>
+<div style="font-weight:700;font-size:22px;letter-spacing:-0.3px">Call, SMS &amp; deepfake filtering</div>
+</div>
+<div style="padding:0 20px 20px;display:flex;flex-direction:column;gap:18px">
+
+<div style="border:1px solid var(--grey-300);padding:14px 16px;display:flex;justify-content:space-between;align-items:center">
+<div style="font-size:14px;font-weight:600">Auto-block suspicious contacts</div>
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Switch" checked="{{ autoBlock }}" onChange="{{ toggleAutoBlock }}" hint-size="40px,22px"></x-import>
+</div>
+
+<div style="display:flex;gap:22px;border-bottom:1px solid var(--grey-300)">
+<sc-for list="{{ filterCats }}" as="c" hint-placeholder-count="3">
+<button onClick="{{ c.onClick }}" style="background:none;border:none;padding:10px 0;font-family:var(--font-base);cursor:pointer;font-size:14px;color:var(--color-black);border-bottom:{{ c.borderStyle }}">{{ c.label }}</button>
+</sc-for>
+</div>
+
+<div style="font-size:13px;color:var(--grey-700)">{{ filterStat }}</div>
+
+<sc-for list="{{ filterItems }}" as="it" hint-placeholder-count="3">
+<div style="border:1px solid var(--grey-300);padding:14px 16px;display:flex;flex-direction:column;gap:6px">
+<div style="font-size:14px;font-weight:600">{{ it.who }}</div>
+<div style="font-size:13px;color:var(--grey-900)">{{ it.detail }}</div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
+<x-import component-from-global-scope="OrangeDesignSystem_4d8c32.Badge" tone="{{ it.tone }}" hint-size="90px,22px">{{ it.tag }}</x-import>
+<div style="font-size:12px;color:var(--grey-700)">{{ it.time }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+<!-- BOTTOM TAB BAR -->
+<sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;border-top:1px solid var(--grey-300);background:var(--color-white);position:sticky;bottom:0;padding-bottom:max(20px,env(safe-area-inset-bottom))">
+<sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="4">
+<div onClick="{{ tb.onClick }}" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer">
+<div style="width:22px;height:3px;background:{{ tb.indicatorColor }};border-radius:2px"></div>
+<div style="font-size:11px;font-weight:{{ tb.weight }};color:{{ tb.color }}">{{ tb.label }}</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    tab: 'home',
+    showFiltering: false,
+    threatFilter: 'all',
+    filterCat: 'calls',
+    monitoringOn: true,
+    autoBlock: true,
+    tfa: { email: true, banking: true, social: false },
+    darkMode: true
+  };
+
+  toggleDarkMode = () => this.setState(s => ({ darkMode: !s.darkMode }));
+
+  componentDidMount() {
+    const vp = document.querySelector('meta[name="viewport"]');
+    if (vp) vp.setAttribute('content', 'width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no');
+    const metas = [
+      ['mobile-web-app-capable', 'yes'],
+      ['apple-mobile-web-app-capable', 'yes'],
+      ['apple-mobile-web-app-status-bar-style', 'black-translucent'],
+      ['theme-color', '#000000']
+    ];
+    metas.forEach(([name, content]) => {
+      if (document.querySelector(`meta[name="${name}"]`)) return;
+      const m = document.createElement('meta');
+      m.name = name;
+      m.content = content;
+      document.head.appendChild(m);
+    });
+  }
+
+  threatsData = [
+    { id: 1, title: 'Password leak detected', desc: "Your password for shopname.com appeared in a data breach.", severity: 'danger', status: 'attention', time: '3 hours ago', action: 'Change password' },
+    { id: 2, title: 'Suspicious login attempt', desc: 'Someone tried to sign in from Lyon, France using a new device.', severity: 'danger', status: 'attention', time: '5 hours ago', action: 'Review' },
+    { id: 3, title: 'Weak password found', desc: 'Your banking app password is easy to guess.', severity: 'warning', status: 'attention', time: '1 day ago', action: 'Update' },
+    { id: 4, title: 'Deepfake voice call flagged', desc: "A call claiming to be from 'Mum' was flagged as a likely AI voice clone.", severity: 'warning', status: 'attention', time: '2 days ago', action: 'Listen & report' },
+    { id: 5, title: 'Outdated app permission removed', desc: 'Camera access removed from an unused app.', severity: 'success', status: 'resolved', time: '4 days ago', action: null }
+  ];
+
+  toneFor = (t) => t.status === 'resolved' ? 'success' : (t.severity === 'danger' ? 'danger' : 'warning');
+
+  activityFeed = [
+    { title: 'New device connected · MacBook Pro', time: 'Just now', dot: 'var(--status-info)' },
+    { title: 'Public Wi-Fi detected · Café Central', time: '12 min ago', dot: 'var(--status-warning)' },
+    { title: "Login verified · Camille's iPhone", time: '38 min ago', dot: 'var(--status-success)' },
+    { title: 'Firewall scan completed · No threats found', time: '1 hour ago', dot: 'var(--status-success)' }
+  ];
+
+  passwordsData = [
+    { name: 'Email', strength: 'Strong', tone: 'success' },
+    { name: 'shopname.com', strength: 'Weak', tone: 'danger' },
+    { name: 'Banking app', strength: 'Strong', tone: 'success' }
+  ];
+
+  recommendationsData = [
+    'Turn on two-factor authentication for social media',
+    'Update your shopname.com password',
+    'Review devices connected to your account'
+  ];
+
+  resourcesData = [
+    'How to spot a phishing email',
+    'What is a deepfake call?',
+    'Choosing a strong password'
+  ];
+
+  filterData = {
+    calls: { stat: '128 calls blocked this month', items: [
+      { who: '+33 6 12 34 56 78', detail: 'Repeated robocall pattern detected.', tag: 'Spam risk', tone: 'warning', time: 'Today, 14:20' },
+      { who: '+33 1 70 00 00 00', detail: 'Matches known scam call database.', tag: 'Scam likely', tone: 'danger', time: 'Today, 09:05' },
+      { who: 'Unknown number', detail: 'Automated call, no caller ID.', tag: 'Robocall', tone: 'warning', time: 'Yesterday' }
+    ]},
+    sms: { stat: '64 messages blocked this month', items: [
+      { who: '"Your parcel is delayed, confirm details..."', detail: 'Link leads to a fake delivery site.', tag: 'Phishing', tone: 'danger', time: 'Today, 11:02' },
+      { who: '"You\'ve won a prize! Claim now"', detail: 'Common lottery scam pattern.', tag: 'Spam', tone: 'warning', time: 'Yesterday' },
+      { who: '"Bank alert: verify your account"', detail: "Doesn't match your bank's real domain.", tag: 'Phishing', tone: 'danger', time: '2 days ago' }
+    ]},
+    deepfakes: { stat: '3 calls flagged this month', items: [
+      { who: "Call claiming to be 'Mum'", detail: 'Voice pattern likely AI-generated. Did not match saved contact.', tag: 'AI voice clone', tone: 'danger', time: '2 days ago' },
+      { who: "Voicemail from 'HR department'", detail: 'Synthetic voice markers detected.', tag: 'Synthetic voice', tone: 'danger', time: '5 days ago' }
+    ]}
+  };
+
+  setTab = (t) => this.setState({ tab: t, showFiltering: false });
+  goSecurity = () => this.setTab('security');
+  goMonitoring = () => this.setTab('monitoring');
+  goThreatsFromHome = () => this.setTab('threats');
+  openFiltering = () => this.setState({ showFiltering: true });
+  closeFiltering = () => this.setState({ showFiltering: false });
+  setThreatFilter = (f) => this.setState({ threatFilter: f });
+  setFilterCat = (c) => this.setState({ filterCat: c });
+  toggleMonitoring = () => this.setState(s => ({ monitoringOn: !s.monitoringOn }));
+  toggleAutoBlock = () => this.setState(s => ({ autoBlock: !s.autoBlock }));
+  rescan = () => {};
+  toggleTfa = (key) => this.setState(s => ({ tfa: { ...s.tfa, [key]: !s.tfa[key] } }));
+
+  renderVals() {
+    const s = this.state;
+    const filtered = s.threatFilter === 'all' ? this.threatsData
+      : s.threatFilter === 'attention' ? this.threatsData.filter(t => t.status === 'attention')
+      : this.threatsData.filter(t => t.status === 'resolved');
+
+    const visibleThreats = filtered.map(t => ({
+      ...t,
+      badgeTone: this.toneFor(t),
+      badgeLabel: t.status === 'resolved' ? 'Resolved' : 'Needs attention'
+    }));
+
+    const threatFilters = [
+      { key: 'all', label: `All (${this.threatsData.length})` },
+      { key: 'attention', label: `Needs attention (${this.threatsData.filter(t => t.status === 'attention').length})` },
+      { key: 'resolved', label: `Resolved (${this.threatsData.filter(t => t.status === 'resolved').length})` }
+    ].map(f => ({
+      label: f.label,
+      onClick: () => this.setThreatFilter(f.key),
+      borderStyle: s.threatFilter === f.key ? '3px solid var(--color-black)' : '3px solid transparent'
+    }));
+
+    const tabsDef = [
+      { key: 'home', label: 'Home' },
+      { key: 'threats', label: 'Threats' },
+      { key: 'monitoring', label: 'Monitoring' },
+      { key: 'security', label: 'Security' }
+    ].map(t => ({
+      label: t.label,
+      onClick: () => this.setTab(t.key),
+      indicatorColor: (!s.showFiltering && s.tab === t.key) ? 'var(--color-orange-1)' : 'transparent',
+      weight: (!s.showFiltering && s.tab === t.key) ? 700 : 400,
+      color: (!s.showFiltering && s.tab === t.key) ? 'var(--color-black)' : 'var(--grey-700)'
+    }));
+
+    const filterCats = [
+      { key: 'calls', label: 'Calls' },
+      { key: 'sms', label: 'SMS' },
+      { key: 'deepfakes', label: 'Deepfakes' }
+    ].map(c => ({
+      label: c.label,
+      onClick: () => this.setFilterCat(c.key),
+      borderStyle: s.filterCat === c.key ? '3px solid var(--color-black)' : '3px solid transparent'
+    }));
+
+    const tfaList = [
+      { key: 'email', name: 'Email' },
+      { key: 'banking', name: 'Banking app' },
+      { key: 'social', name: 'Social media' }
+    ].map(a => ({
+      name: a.name,
+      toggle: () => this.toggleTfa(a.key),
+      checked: !!s.tfa[a.key]
+    }));
+
+    const fd = this.filterData[s.filterCat];
+
+    return {
+      isHome: !s.showFiltering && s.tab === 'home',
+      isThreats: !s.showFiltering && s.tab === 'threats',
+      isMonitoring: !s.showFiltering && s.tab === 'monitoring',
+      isSecurity: !s.showFiltering && s.tab === 'security',
+      showFiltering: s.showFiltering,
+      showTabBar: true,
+      goThreatsFromHome: this.goThreatsFromHome,
+      goSecurity: this.goSecurity,
+      goMonitoring: this.goMonitoring,
+      openFiltering: this.openFiltering,
+      closeFiltering: this.closeFiltering,
+      threatFilters,
+      visibleThreats,
+      monitoringStatusText: s.monitoringOn ? 'Active — watching your accounts and devices' : 'Paused',
+      monitoringOn: s.monitoringOn,
+      toggleMonitoring: this.toggleMonitoring,
+      rescan: this.rescan,
+      activityFeed: this.activityFeed,
+      passwords: this.passwordsData,
+      tfaAccounts: tfaList,
+      recommendations: this.recommendationsData,
+      resources: this.resourcesData,
+      tabs: tabsDef,
+      filterCats,
+      filterStat: fd.stat,
+      filterItems: fd.items,
+      autoBlock: s.autoBlock,
+      toggleAutoBlock: this.toggleAutoBlock,
+      darkMode: s.darkMode,
+      toggleDarkMode: this.toggleDarkMode,
+      themeAttr: s.darkMode ? 'dark' : 'light'
+    };
+  }
+}
+</script>
+</body>
+</html>
